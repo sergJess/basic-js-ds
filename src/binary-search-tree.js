@@ -78,9 +78,42 @@ searchWithin(node.left, data)
     }
   }
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  remove(data){
+    this.rootVal= removeNode(this.rootVal, data); // helper method below
+    function  removeNode(node, data) {
+      if (node === null) {
+          return null;
+  }
+  if(data < node.date){
+    node.left = removeNode(node.left, data);
+    return node;
+  } else if(data > node.date){
+    node.right = removeNode(node.right, data);
+    return node;
+  }
+  else{
+    if(!node.left && !node.right){
+      return null;
+    }
+    if(!node.left){
+      node = node.right; 
+      return node;
+    }
+    if(!node.right){
+      node = node.left; 
+      return node;
+    }
+
+let minRight = node.right;
+while(minRight.left !== null){
+  minRight = minRight.left;
+}
+node.data = minRight.data;
+node.right = removeNode(node.right, minRight.data);
+return node;
+  }
+ 
+}
   }
 
   min() {
